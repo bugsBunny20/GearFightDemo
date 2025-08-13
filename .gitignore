@@ -1,0 +1,87 @@
+# =============== #
+# Unity .gitignore #
+# =============== #
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# User-specific settings
+*.user
+*.suo
+*.userprefs
+*.csproj
+*.pidb
+*.sln
+*.tmp
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity generated files
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+Sysinfo/
+
+# Auto-generated VS/JetBrains Rider project files
+ExportedObj/
+.consulo/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.booproj
+
+# Crash reports
+sysinfo.txt
+
+# Build artifacts
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.xcodeproj
+*.xcworkspace
+DerivedData/
+
+# Addressable assets
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Asset Store tools
+[Aa]ssets/AssetStoreTools*
+
+# Cache
+[Aa]ssets/StreamingAssets/aa/*
+[Aa]ssets/StreamingAssets/aa.meta
+
+# Unity Collaborate
+[Aa]ssets/Collab/*
+[Aa]ssets/Collab.meta
+
+# TextMesh Pro auto-generated assets
+[Aa]ssets/TextMesh Pro/Resources/*
+[Aa]ssets/TextMesh Pro/Resources.meta
+
+# Rider Unity plugin
+[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Addressable import cache
+[Aa]ssets/AddressableAssetsData/*/*.bin*
+
+# Plastic SCM
+PlasticSCM/
+
+# Other
+*.mmdb
