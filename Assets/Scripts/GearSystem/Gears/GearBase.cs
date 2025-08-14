@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 namespace GearSystem
 {
@@ -24,10 +25,11 @@ namespace GearSystem
         [Header("Visual State")]
         [SerializeField] private Sprite activeSprite;
         [SerializeField] private Sprite inactiveSprite;
+        [SerializeField] private TextMeshPro gearText;
 
         [Header("Sorting Order")]
-        [SerializeField] private int normalSortingOrder = 2;
-        [SerializeField] private int draggingSortingOrder = 15;
+        [SerializeField] protected int normalSortingOrder = 2;
+        [SerializeField] protected int draggingSortingOrder = 15;
 
         private bool isActive;
         public bool IsActive => isActive;
@@ -49,11 +51,12 @@ namespace GearSystem
             }
         }
 
-        public void SetSortingOrder(bool isDragging)
+        public virtual void SetSortingOrder(bool isDragging)
         {
             if (spriteRenderer != null)
             {
                 spriteRenderer.sortingOrder = isDragging ? draggingSortingOrder : normalSortingOrder;
+                gearText.sortingOrder = isDragging ? draggingSortingOrder + 1 : normalSortingOrder + 1;
             }
         }
 

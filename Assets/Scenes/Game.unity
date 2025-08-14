@@ -735,6 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eac3d1938b0601147a8effbbc17c0cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshTolerance: 0.06
 --- !u!1 &581058921
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,21 +782,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberGearPrefabs:
   - {fileID: 2139729835951561910, guid: 7a4ef070cbab482408a7f92922d775fd, type: 3}
-  - {fileID: 5493232967359295513, guid: 0de7c285fc5bb7743b2cb5d388c47344, type: 3}
-  - {fileID: 294267448285154553, guid: bab6fd86e23cbb2489c4e3013e64985b, type: 3}
-  - {fileID: 5861815530849265458, guid: 0d66af4aee8ea4a479bc7ddf563e9945, type: 3}
+  - {fileID: 3729130479024384474, guid: 0de7c285fc5bb7743b2cb5d388c47344, type: 3}
+  - {fileID: 2788640794456742172, guid: bab6fd86e23cbb2489c4e3013e64985b, type: 3}
+  - {fileID: 5324316672733528918, guid: 0d66af4aee8ea4a479bc7ddf563e9945, type: 3}
   numberGearValues: 01000000020000000400000008000000
   multiplierGearPrefabs:
-  - {fileID: 1312287753434478486, guid: a9e42f782e271fe4f8063b31b50b8713, type: 3}
-  - {fileID: 1072865978874132149, guid: 9527d9bc8d0799040a7d2ef96702416a, type: 3}
-  - {fileID: 3842379085989037172, guid: 8f011d5a7044c0b43bacf087a7cf3e04, type: 3}
+  - {fileID: 1342593303496507103, guid: 9527d9bc8d0799040a7d2ef96702416a, type: 3}
+  - {fileID: 3954735144374858663, guid: a9e42f782e271fe4f8063b31b50b8713, type: 3}
+  - {fileID: 248550674964904335, guid: 8f011d5a7044c0b43bacf087a7cf3e04, type: 3}
   multiplierGearValues:
   - 1.25
   - 1.5
   - 2
   characterGearPrefabs:
-  - {fileID: 2323768906800468144, guid: 70b76f2a1b1a5fa44a7db578748e8cc0, type: 3}
-  - {fileID: 2361161987568047386, guid: 1a40c5d06a5ee924cb9f51b44a66fefd, type: 3}
+  - {fileID: 9128705281020507326, guid: 9e5867e3db28b6b438fc63acfc313b74, type: 3}
+  - {fileID: 1010113470390417841, guid: 1a40c5d06a5ee924cb9f51b44a66fefd, type: 3}
   characterGearValues:
   - R
   - S
@@ -835,6 +836,7 @@ MonoBehaviour:
   gridCellPrefab: {fileID: 7047269497314518675, guid: 3887a893b665bdf4b8f49109fe55818d, type: 3}
   gridVisualParent: {fileID: 727682098}
   motorPrefab: {fileID: 5462101674894103678, guid: d801ffd09524b2c46b1cf5acd5342608, type: 3}
+  motorCount: 2
 --- !u!4 &727682098
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using GearSystem;
+using TMPro;
 
 public enum CharacterSubType { Round = 0, Square = 1 }
 
@@ -19,14 +20,22 @@ public class CharacterGear : GearBase, ISubtypeProvider
     private float fillerValue = 0f;
     [SerializeField] private float fillerThreshold = 1f; // spawn when >= 1
 
+    [SerializeField] private TextMeshPro fillerValueText;
+    [SerializeField] private SpriteRenderer fillerBackground;
+
     public int GetSubtype() => subtypeIndex;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         // Subscribe to path change
+        if (fillerValueText != null)
+        {
+            fillerValueText.sortingOrder = normalSortingOrder + 2;
+            fillerValueText.text = fillerValue.ToString() + "/s";
+        }
         if (GridManager.Instance != null)
-            GridManager.Instance.OnActivePathChanged += RecalculateFillPerRotation;
+            GridManager.Instance.OnActivePathChanged += OnActivePathChanged;
         baseFillPerRotation = GetBaseFillValue((CharacterSubType)subtypeIndex);
     }
 
@@ -40,39 +49,59 @@ public class CharacterGear : GearBase, ISubtypeProvider
     private void OnDisable()
     {
         if (GridManager.Instance != null)
-            GridManager.Instance.OnActivePathChanged -= RecalculateFillPerRotation;
+            GridManager.Instance.OnActivePathChanged -= OnActivePathChanged;
+    }
+
+
+    public override void SetSortingOrder(bool isDragging)
+    {
+        base.SetSortingOrder(isDragging);
+        if (fillerValueText != null)
+        {
+            fillerValueText.sortingOrder = isDragging ? draggingSortingOrder + 2 : normalSortingOrder + 2;
+        }
+        if (fillerBackground != null)
+        {
+            fillerBackground.sortingOrder = isDragging ? draggingSortingOrder + 1 : normalSortingOrder + 1;
+        }
     }
 
     // Called by grid when active path changes
-    private void RecalculateFillPerRotation(HashSet<Vector2Int> activePath)
+    private void OnActivePathChanged(HashSet<Vector2Int> activePath)
     {
+        GridManager gridManager = GridManager.Instance;
+        if (gridManager == null) return;
+
+        int activeMotorCount = 0;
         float additiveBonus = 0f;
         float totalMultiplier = 1f;
 
-        GridManager grid = GridManager.Instance;
-        if (grid == null)
-        {
-            calculatedFillPerRotation = 0f;
-            return;
-        }
-
         foreach (var pos in activePath)
         {
-            GearBase gear = grid.GetGearAt(pos);
-            if (gear == null || gear == this) continue;
+            GearBase gear = gridManager.GetGearAt(pos);
+            if (gear == null) continue;
 
+            // Count active motors
+            if (gear.gearType == GearType.Motor)
+                activeMotorCount++;
+
+            // Add bonuses
             if (gear is NumberGear num)
                 additiveBonus += num.GetValue();
             else if (gear is MultiplierGear mult)
                 totalMultiplier *= mult.GetMultiplier();
         }
 
-        // final per-rotation fill
-        calculatedFillPerRotation = (baseFillPerRotation + additiveBonus) * totalMultiplier;
+        if (activeMotorCount == 0)
+        {
+            calculatedFillPerRotation = 0f;
+            return;
+        }
 
-        if (calculatedFillPerRotation < 0f) calculatedFillPerRotation = 0f;
+        calculatedFillPerRotation = (baseFillPerRotation + activeMotorCount * additiveBonus) * totalMultiplier;
+        fillerValueText.text = calculatedFillPerRotation.ToString() +"/s";
 
-        Debug.Log($"[CharacterGear] calcPerRot={calculatedFillPerRotation:F4}");
+        Debug.Log($"[CharacterGear] Active Motors: {activeMotorCount}, Fill/Rotation: {calculatedFillPerRotation}");
     }
 
     // Called once per rotation
@@ -85,10 +114,11 @@ public class CharacterGear : GearBase, ISubtypeProvider
         if (calculatedFillPerRotation <= 0f) return;
 
         fillerValue += calculatedFillPerRotation;
+        fillerValueText.text = fillerValue.ToString()+"/s";
 
         if (fillerValue >= fillerThreshold)
         {
-   
+
             SpawnCharacter();
             fillerValue = 0f;
         }
@@ -104,7 +134,6 @@ public class CharacterGear : GearBase, ISubtypeProvider
         }
     }
 
-    // Optional debug helper
     public float GetCurrentFill() => fillerValue;
     public float GetCalculatedPerRotation() => calculatedFillPerRotation;
 }

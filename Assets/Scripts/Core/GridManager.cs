@@ -16,6 +16,7 @@ public class GridManager : MonoBehaviour
 
     [Header("Gear Prefabs")]
     [SerializeField] private GameObject motorPrefab;
+    [SerializeField] private int motorCount = 2; // NEW — number of motors to spawn
 
     private GearBase[,] grid;
     private HashSet<Vector2Int> activePathGears = new HashSet<Vector2Int>();
@@ -38,7 +39,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         GenerateGrid();
-        PlaceMotorAtRandomPosition();
+        PlaceMotorsAtRandomPositions(motorCount); // UPDATED
     }
 
     #region Grid Setup
@@ -54,7 +55,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void PlaceMotorAtRandomPosition()
+    private void PlaceMotorsAtRandomPositions(int count) // UPDATED
     {
         List<Vector2Int> emptyCells = new List<Vector2Int>();
 
@@ -70,16 +71,20 @@ public class GridManager : MonoBehaviour
 
         if (emptyCells.Count == 0) return;
 
-        Vector2Int randomPos = emptyCells[Random.Range(0, emptyCells.Count)];
-        Vector3 worldPos = GridToWorld(randomPos);
-
-        GameObject motorGO = Instantiate(motorPrefab, worldPos, Quaternion.identity);
-        GearBase motorGear = motorGO.GetComponent<GearBase>();
-
-        if (motorGear != null)
+        for (int i = 0; i < count && emptyCells.Count > 0; i++)
         {
-            motorGear.GridPosition = randomPos;
-            PlaceGear(motorGear, randomPos);
+            Vector2Int randomPos = emptyCells[Random.Range(0, emptyCells.Count)];
+            emptyCells.Remove(randomPos); // avoid overlap
+
+            Vector3 worldPos = GridToWorld(randomPos);
+            GameObject motorGO = Instantiate(motorPrefab, worldPos, Quaternion.identity);
+
+            GearBase motorGear = motorGO.GetComponent<GearBase>();
+            if (motorGear != null)
+            {
+                motorGear.GridPosition = randomPos;
+                PlaceGear(motorGear, randomPos);
+            }
         }
     }
     #endregion
@@ -158,7 +163,6 @@ public class GridManager : MonoBehaviour
 
     public HashSet<Vector2Int> GetActivePath()
     {
-        return activePathGears; // <-- whatever variable you store it in
+        return activePathGears;
     }
-
 }

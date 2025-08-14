@@ -20,10 +20,10 @@ namespace GearSystem
         {
             switch (subtypeIndex)
             {
-                case (int)NumberSubType.One: return 0.03f;
-                case (int)NumberSubType.Two: return 0.06f;
-                case (int)NumberSubType.Four: return 0.09f;
-                case (int)NumberSubType.Eight: return 0.12f;
+                case (int)NumberSubType.One: return 0.06f;
+                case (int)NumberSubType.Two: return 0.11f;
+                case (int)NumberSubType.Four: return 0.17f;
+                case (int)NumberSubType.Eight: return 0.22f;
                 default: return 0.25f;
             }
         }
